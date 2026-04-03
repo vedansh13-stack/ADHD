@@ -1,0 +1,83 @@
+.authCard {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 16px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputGroup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.inputGroup input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.inputGroup input:focus {
+  border-color: var(--primary);
+}
+
+.submitBtn {
+  background: var(--primary);
+  color: white;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+
+.submitBtn:hover {
+  background: var(--primary-hover);
+}
+
+.error {
+  background: #ffeded;
+  color: var(--danger);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .error {
+    background: #3a1616;
+  }
+}
+
+.toggleText {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.toggleBtn {
+  color: var(--primary);
+  font-weight: 600;
+}
+.toggleBtn:hover {
+  text-decoration: underline;
+}
