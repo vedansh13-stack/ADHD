@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/auth";
-import crypto from "crypto";
-
-function hashPassword(password: string) {
-  return crypto.createHash("sha256").update(password).digest("hex");
-}
+import bcryptjs from "bcryptjs";
 
 export async function POST(req: Request) {
   try {
@@ -26,8 +22,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const hashedPassword = hashPassword(password);
-    if (user.password !== hashedPassword) {
+    const passwordMatch = await bcryptjs.compare(password, user.password);
+    if (!passwordMatch) {
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 }
@@ -50,8 +46,9 @@ export async function POST(req: Request) {
       },
     });
   } catch (error) {
+    console.error("Login error:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { message: "Server error" },
       { status: 500 }
     );
   }

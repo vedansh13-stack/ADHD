@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/auth";
-import crypto from "crypto";
-
-// Basic built-in Node crypto wrapper for prototype
-function hashPassword(password: string) {
-  return crypto.createHash("sha256").update(password).digest("hex");
-}
+import bcryptjs from "bcryptjs";
 
 export async function POST(req: Request) {
   try {
@@ -27,7 +22,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const hashedPassword = hashPassword(password);
+    const hashedPassword = await bcryptjs.hash(password, 10);
     const user = await prisma.user.create({
       data: {
         name,
@@ -39,8 +34,9 @@ export async function POST(req: Request) {
     await createSession(user.id);
     return NextResponse.json({ success: true, userId: user.id });
   } catch (error) {
+    console.error("Signup error:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { message: "Server error" },
       { status: 500 }
     );
   }
